@@ -1,13 +1,13 @@
 import React, { useEffect, useState, useRef } from 'react';
-import './AudioReceiver.css';
+import './AudioRecorder.css';
 
-export interface AudioReceiverProps {
+export interface AudioRecorderProps {
     recordedAudio: Blob[],
     setRecordedAudio: Function,
     audioElementRef: React.MutableRefObject<HTMLAudioElement>
 };
 
-function AudioReceiver(props: AudioReceiverProps) {
+function AudioRecorder(props: AudioRecorderProps) {
     const { recordedAudio, setRecordedAudio, audioElementRef } = props;
 
     const [mediaRecorder, setMediaRecorder] = useState<MediaRecorder>(),
@@ -90,4 +90,4 @@ function AudioReceiver(props: AudioReceiverProps) {
   );
 }
 
-export default AudioReceiver;
+export default AudioRecorder;

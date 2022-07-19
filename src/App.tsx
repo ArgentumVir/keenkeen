@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect }  from 'react';
 import logo from './logo.svg';
 import './App.css';
-import AudioReceiver from './AudioReceiver';
+import AudioRecorder from './AudioRecorder';
 import AudioVisualizer from './AudioVisualizer';
 
 function App() {
@@ -11,7 +11,7 @@ function App() {
 
   return (
     <div className="App">
-      <AudioReceiver
+      <AudioRecorder
         recordedAudio={recordedAudio}
         setRecordedAudio={setRecordedAudio}
         audioElementRef={audioElement}
