@@ -1,15 +1,20 @@
 import React, { useEffect, useState, useRef } from 'react';
 import './AudioReceiver.css';
 
+export interface AudioReceiverProps {
+    recordedAudio: Blob[],
+    setRecordedAudio: Function,
+    audioElementRef: React.MutableRefObject<HTMLAudioElement>
+};
 
-function AudioReceiver() {
+function AudioReceiver(props: AudioReceiverProps) {
+    const { recordedAudio, setRecordedAudio, audioElementRef } = props;
+
     const [mediaRecorder, setMediaRecorder] = useState<MediaRecorder>(),
-        [playbackAudio, setPlaybackAudio] = useState<Blob[]>([]),
         [isMicrophoneActivated, setIsMicrophoneActivated] = useState<Boolean>(false),
-        [isRecording, setIsRecording] = useState<Boolean>(false),
-        audioElement = useRef<HTMLAudioElement>(new Audio());
+        [isRecording, setIsRecording] = useState<Boolean>(false);
 
-    // Automatically activate microphone if permission has already been granted in the past
+    // On page load activate microphone if permission has already been granted in the past
     useEffect(() => {
         navigator
             .permissions
@@ -17,14 +22,12 @@ function AudioReceiver() {
             .then((permissionStatus) => (permissionStatus.state === 'granted') && ActivateMicrophone());
     }, []);
 
+    // Keep audio element
     useEffect(() => {
-        if (playbackAudio.length === 0) return;
+        if (recordedAudio.length === 0) return;
 
-        // audioElement.current.onended = () => {
-        // };
-
-        audioElement.current.src =  URL.createObjectURL(playbackAudio[0]);
-    }, [playbackAudio])
+        audioElementRef.current.src =  URL.createObjectURL(recordedAudio[0]);
+    }, [recordedAudio]);
 
     function ActivateMicrophone()
     {
@@ -35,7 +38,7 @@ function AudioReceiver() {
                 let recorder = new MediaRecorder(stream, { mimeType: "audio/webm" });
 
                 recorder.addEventListener('dataavailable', function(e) {
-                    if (e.data.size > 0)  setPlaybackAudio([playbackAudio, e.data].flat());
+                    if (e.data.size > 0)  setRecordedAudio([recordedAudio, e.data].flat());
                   });
               
                 setMediaRecorder(recorder);
@@ -83,7 +86,6 @@ function AudioReceiver() {
                 Stop
             </button>
         }
-        <audio ref={audioElement} id="playback" controls></audio>
     </div>
   );
 }

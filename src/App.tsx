@@ -1,26 +1,27 @@
-import React from 'react';
+import React, { useState, useRef, useEffect }  from 'react';
 import logo from './logo.svg';
 import './App.css';
 import AudioReceiver from './AudioReceiver';
+import AudioVisualizer from './AudioVisualizer';
 
 function App() {
+  const [recordedAudio, setRecordedAudio] = useState<Blob[]>([]);
+
+  const audioElement = useRef<HTMLAudioElement>(new Audio());
+
   return (
     <div className="App">
-      <AudioReceiver />
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <AudioReceiver
+        recordedAudio={recordedAudio}
+        setRecordedAudio={setRecordedAudio}
+        audioElementRef={audioElement}
+      />
+      <AudioVisualizer
+        audio={recordedAudio}
+        audioElementRef={audioElement}
+      />
+      
+      <audio ref={audioElement} id="playback" controls></audio>
     </div>
   );
 }
