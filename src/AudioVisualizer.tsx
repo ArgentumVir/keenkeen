@@ -5,12 +5,11 @@ import { isContext } from 'vm';
 import './AudioVisualizer.css';
 
 export interface AudioVisualizerProps {
-    audio: Blob[],
     audioElementRef: React.MutableRefObject<HTMLAudioElement>
 };
 
 function AudioVisualizer(props: AudioVisualizerProps) {
-    const { audio, audioElementRef } = props;
+    const { audioElementRef } = props;
     const canvasElement = useRef<HTMLCanvasElement>(null);
 
     const [source, setSource] = useState<MediaElementAudioSourceNode>();
@@ -22,8 +21,8 @@ function AudioVisualizer(props: AudioVisualizerProps) {
         if (!canvasElement || !canvasElement.current || !canvasContext) { return; }
         const dataArray = new Uint8Array(analyser.frequencyBinCount);
 
-        // analyser.getByteTimeDomainData(dataArray);
-        analyser.getByteFrequencyData(dataArray);
+        analyser.getByteTimeDomainData(dataArray);
+        console.log(dataArray);
         
           canvasContext.fillStyle = "rgb(200, 200, 200)";
           canvasContext.fillRect(0, 0, canvasElement.current.width, canvasElement.current.height);
@@ -69,7 +68,7 @@ function AudioVisualizer(props: AudioVisualizerProps) {
 
   return (
     <div>
-      <canvas ref={canvasElement}></canvas>
+      <canvas width={1000} height={1000} ref={canvasElement}></canvas>
     </div>
   );
 }

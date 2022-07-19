@@ -17,7 +17,6 @@ function App() {
         audioElementRef={audioElement}
       />
       <AudioVisualizer
-        audio={recordedAudio}
         audioElementRef={audioElement}
       />
       
