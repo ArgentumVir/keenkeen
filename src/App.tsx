@@ -3,6 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 import AudioRecorder from './AudioRecorder';
 import AudioVisualizer from './AudioVisualizer';
+import AudioTranscriber from './AudioTranscriber';
 
 function App() {
   const [recordedAudio, setRecordedAudio] = useState<Blob[]>([]);
@@ -11,7 +12,10 @@ function App() {
 
   return (
     <div className="App">
-      <AudioRecorder
+      <AudioTranscriber>
+
+      </AudioTranscriber>
+      {/* <AudioRecorder
         recordedAudio={recordedAudio}
         setRecordedAudio={setRecordedAudio}
         audioElementRef={audioElement}
@@ -20,7 +24,7 @@ function App() {
         audioElementRef={audioElement}
       />
       
-      <audio ref={audioElement} id="playback" controls></audio>
+      <audio ref={audioElement} id="playback" controls></audio> */}
     </div>
   );
 }
